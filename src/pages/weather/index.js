@@ -17,6 +17,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
 import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
 import { withStyles } from '@material-ui/core/styles';
@@ -58,13 +59,16 @@ class Weather extends Component {
 
   handleHomeClick = () => this.props.searchRequest({ search: undefined })
 
+  handleSearchClick = () => this.props.searchRequest({
+    search: this.search,
+    noCityCallback: this.handleSearchNoCity,
+    manyCityCallback: this.handleSearchManyCity
+  })
+
   handleSearchInput = e => {
+    this.search = e.target.value
     if (e.which === 13) {
-      this.props.searchRequest({
-        search: e.target.value,
-        noCityCallback: this.handleSearchNoCity,
-        manyCityCallback: this.handleSearchManyCity
-      })
+      this.handleSearchClick()
     }
   }
 
@@ -97,12 +101,9 @@ class Weather extends Component {
             </Typography>
             <div className={classes.grow} />
             <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
               <InputBase
                 placeholder="Search"
-                onKeyDown={this.handleSearchInput}
+                onKeyUp={this.handleSearchInput}
                 disabled={!!loading}
                 classes={{
                   root: classes.inputRoot,
@@ -111,6 +112,13 @@ class Weather extends Component {
               />
             </div>
             <div>
+              <IconButton
+                color="inherit"
+                disabled={!!loading}
+                onClick={this.handleSearchClick}
+              >
+                <SearchIcon />
+              </IconButton>
               <IconButton
                 color="inherit"
                 disabled={!!loading}
@@ -123,7 +131,7 @@ class Weather extends Component {
         </AppBar>
         <Paper className={classes.contentPane}>
         { location ? (
-          <Grid container spacing={24}>
+          <Grid container className={classes.cardContainer} spacing={24}>
           { weather.map(val => (
             <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={val.id}>
               <Card>
@@ -131,8 +139,8 @@ class Weather extends Component {
                   <CardMedia
                     className={classes.media}
                     image={"https://www.metaweather.com/static/img/weather/" + val.weather_state_abbr + ".svg"}
-                  >
-                  
+                  />
+                  <CardContent>
                     <div className={classes.date}>{val.applicable_date.substring(8)}</div>
                     <div>
                       <Typography gutterBottom variant="h5" component="h2">
@@ -157,7 +165,7 @@ class Weather extends Component {
                         Wind Speed {Math.round(val.wind_speed * 100) / 100}
                       </Typography>
                     </div>
-                  </CardMedia>
+                  </CardContent>
                 </CardActionArea>
               </Card>
             </Grid>

@@ -53,10 +53,6 @@ const weatherRequest = function* ({ payload }) {
   }))
 }
 
-const geolocationRequest = function* () {
-
-}
-
 export default function* rootSaga() {
   yield takeLatest(actions.types.SEARCH_REQUEST, searchRequest)
   yield takeLatest(actions.types.WEATHER_REQUEST, weatherRequest)

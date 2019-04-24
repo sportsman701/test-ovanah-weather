@@ -49,7 +49,7 @@ export default theme => ({
     paddingTop: theme.spacing.unit,
     paddingRight: theme.spacing.unit,
     paddingBottom: theme.spacing.unit,
-    paddingLeft: theme.spacing.unit * 10,
+    paddingLeft: theme.spacing.unit * 2,
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('sm')]: {
@@ -75,12 +75,20 @@ export default theme => ({
     paddingTop: theme.spacing.unit * 5
   },
   media: {
-    paddingBottom: theme.spacing.unit * 2
+    height: '150px',
+    margin: '0 auto',
+    width: '70%',
+    backgroundSize: 'auto',
+    //paddingBottom: theme.spacing.unit * 2
   },
   spinner: {
     position: 'absolute',
     width: '100%',
     paddingTop: '300px'
+  },
+  cardContainer: {
+    display: 'flex',
+    justifyContent: 'center'
   },
   date: {
     fontSize: '8em',
